@@ -5,25 +5,19 @@
         <a-tab-pane key="1" tab="用户登陆" />
       </a-tabs>
       <a-form
-        :form="form"
+        :form="form.fc"
         class="login-form p-2"
         @submit="handleSubmit">
         <a-form-item class="mt-4">
           <a-input
-            v-decorator="[
-              'user_name',
-              { rules: [{ required: true, message: '请输入您的用户名!' }] },
-            ]"
+            v-decorator="decorators.user_name"
             placeholder="用户名">
             <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
         <a-form-item>
           <a-input-password
-            v-decorator="[
-              'password',
-              { rules: [{ required: true, message: '请输入您的密码!' }] },
-            ]"
+            v-decorator="decorators.password"
             placeholder="密码">
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input-password>
@@ -43,11 +37,20 @@ export default {
   name: 'Login',
   data () {
     return {
-
+      form: {
+        fc: this.$form.createForm(this),
+      },
+      decorators: {
+        user_name: [
+          'user_name',
+          { rules: [{ required: true, message: '请输入您的用户名!' }] },
+        ],
+        password: [
+          'password',
+          { rules: [{ required: true, message: '请输入您的密码!' }] },
+        ],
+      },
     }
-  },
-  beforeCreate () {
-    this.form = this.$form.createForm(this)
   },
   methods: {
     handleSubmit (e) {
@@ -64,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
   .login-index-wrap {
-    background-image: url('../assets/bg.svg');
+    background-image: url('../../assets/bg.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-color: rgb(240, 242, 246);
