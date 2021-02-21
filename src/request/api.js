@@ -1,3 +1,3 @@
 import { get } from './http'
 
-export const getManagerList = () => get('api/manager-list')
+export const getManagerList = (params) => get('api/manager-list', params)
