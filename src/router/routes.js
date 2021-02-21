@@ -1,5 +1,7 @@
 import Login from '../pages/Login'
 import ManagerSetting from '../pages/ManagerSetting'
+import RoleSetting from '../pages/RoleSetting'
+import Statistic from '../pages/Statistic'
 
 const routes = [
   {
@@ -12,6 +14,16 @@ const routes = [
     name: 'managerSetting',
     path: '/manager-setting',
     component: ManagerSetting,
+  },
+  {
+    name: 'roleSetting',
+    path: '/role-setting',
+    component: RoleSetting,
+  },
+  {
+    name: 'statistic',
+    path: '/statistic',
+    component: Statistic,
   },
 ]
 

@@ -1,6 +1,10 @@
 <template>
   <div>
+    <a-button type="primary" @click="handleAddClick">
+      新增管理员
+    </a-button>
     <a-table
+      class="mt-2"
       :columns="columns"
       :data-source="data"
       rowKey="id"
@@ -21,10 +25,35 @@
         <a>删除</a>
       </span>
     </a-table>
-    <a-modal v-model="visible" title="Basic Modal" @ok="handleOk">
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+    <a-modal v-model="visible" @ok="handleOk" cancelText="取消" okText="确定">
+      <div slot="title">
+        {{ dialogType === 'add' ? '新增管理员' : '修改' }}
+      </div>
+      <a-form
+        :form="form.fc">
+        <a-form-item label="账号" v-bind="formItemLayout">
+          <a-input  v-decorator="decorators.phone" placeholder="请输入管理员手机号" />
+        </a-form-item>
+        <a-form-item label="姓名" v-bind="formItemLayout">
+          <a-input v-decorator="decorators.name" placeholder="请输入姓名" />
+        </a-form-item>
+        <a-form-item label="角色" v-bind="formItemLayout">
+          <a-select v-decorator="decorators.level" placeholder="请选择角色">
+            <a-select-option :value="1">
+              一级管理员
+            </a-select-option>
+            <a-select-option :value="2">
+              二级管理员
+            </a-select-option>
+            <a-select-option :value="3">
+              三级管理员
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="启用状态" v-bind="formItemLayout">
+          <a-switch v-decorator="decorators.enable" checked-children="开" un-checked-children="关" />
+        </a-form-item>
+      </a-form>
     </a-modal>
   </div>
 </template>
@@ -73,6 +102,51 @@ export default {
         },
       ],
       visible: false,
+      dialogType: 'add',
+      form: {
+        fc: this.$form.createForm(this),
+      },
+      decorators: {
+        phone: [
+          'phone',
+          {
+            rules: [
+              { required: true, message: '请填写手机号' },
+            ],
+          },
+        ],
+        name: [
+          'name',
+          {
+            rules: [
+              { required: true, message: '请输入名称' },
+            ],
+          },
+        ],
+        level: [
+          'level',
+          {
+            rules: [
+              { required: true, message: '请选择角色' },
+            ],
+          },
+        ],
+        enable: [
+          'enable',
+          {
+            valuePropName: 'checked',
+            initialValue: true,
+          },
+        ],
+      },
+      formItemLayout: {
+        wrapperCol: {
+          span: 20,
+        },
+        labelCol: {
+          span: 4,
+        },
+      },
     }
   },
   created () {
@@ -95,7 +169,12 @@ export default {
         this.loading = false
       })
     },
+    handleAddClick () {
+      this.dialogType = 'add'
+      this.visible = true
+    },
     handleEditClick () {
+      this.dialogType = 'edit'
       this.visible = true
     },
     handleOk () {
