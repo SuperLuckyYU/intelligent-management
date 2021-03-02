@@ -1,6 +1,7 @@
 <template>
   <div>
     <a-modal
+      :width="800"
       v-model="visible"
       @ok="handleConfirmClick"
       @cancel="handleCancleClick"
@@ -43,10 +44,44 @@
           <a-input v-model="form.industry" placeholder="请填写行业" />
         </a-form-model-item>
         <a-form-model-item label="入驻日期" prop="settle_in_at">
-          <a-input v-model="form.settle_in_at" placeholder="请填写行业" />
+          <a-date-picker v-model="form.settle_in_at" placeholder="请填写入驻日期" />
         </a-form-model-item>
         <a-form-model-item label="租户姓名" prop="tenant_name">
-          <a-input v-model="form.tenant_name" placeholder="请填写行业" />
+          <a-input v-model="form.tenant_name" placeholder="请填写租户姓名" />
+        </a-form-model-item>
+        <a-form-model-item label="租户电话" prop="tenant_phone">
+          <a-input v-model="form.tenant_phone" placeholder="请填写租户电话" />
+        </a-form-model-item>
+        <a-form-model-item label="其他联系人">
+          <a-input v-model="form.other_concat" />
+        </a-form-model-item>
+        <a-form-model-item label="备用电话">
+          <a-input v-model="form.alternate_phone" />
+        </a-form-model-item>
+        <a-form-model-item label="营业执照">
+          <a-upload
+            name="file"
+            :multiple="true"
+            v-model="form.business_license"
+            action="">
+            <a-button> <a-icon type="upload" /> 上传 </a-button>
+          </a-upload>
+        </a-form-model-item>
+        <a-form-model-item label="备注">
+          <a-textarea v-model="form.tenant_note" :rows="4" />
+        </a-form-model-item>
+        <a-divider>合同信息设置</a-divider>
+        <a-form-model-item label="合同编号" prop="contract_no">
+          <a-input v-model="form.contract_no" />
+        </a-form-model-item>
+        <a-form-model-item label="合同签约日期" prop="contract_at">
+          <a-date-picker v-model="form.contract_at" placeholder="请选择合同签约日期" />
+        </a-form-model-item>
+        <a-form-model-item label="合同到期日期" prop="due_at">
+          <a-date-picker v-model="form.due_at" placeholder="请选择合同到期日期" />
+        </a-form-model-item>
+        <a-form-model-item label="押金数" prop="deposit_num">
+          <a-input-number class="w-100" v-model="form.deposit_num" placeholder="请填写押金金额" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
@@ -72,6 +107,16 @@ export default {
         shop_name: '',
         industry: '',
         settle_in_at: '',
+        tenant_name: '',
+        tenant_phone: '',
+        other_concat: '',
+        alternate_phone: '',
+        business_license: '',
+        tenant_note: '',
+        contract_no: '',
+        contract_at: '',
+        due_at: '',
+        deposit_num: '',
       },
       shopTypeList: [
         {
@@ -142,6 +187,24 @@ export default {
         ],
         settle_in_at: [
           { required: true, message: '请填写入驻日期' },
+        ],
+        tenant_name: [
+          { required: true, message: '请填写租户姓名' },
+        ],
+        tenant_phone: [
+          { required: true, message: '请填写租户电话' },
+        ],
+        contract_no: [
+          { required: true, message: '请填写合同编号' },
+        ],
+        contract_at: [
+          { required: true, message: '请选择合同签约日期' },
+        ],
+        due_at: [
+          { required: true, message: '请选择合同到期日期' },
+        ],
+        deposit_num: [
+          { required: true, message: '请填写押金金额' },
         ],
       },
       formItemLayout: {
