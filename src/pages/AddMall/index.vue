@@ -1,48 +1,70 @@
 <template>
-  <div class="draggable-wrapper">
-    <a-tooltip>
-      <template slot="title">
-        添加元素
-      </template>
-      <a-icon
-        class="add-btn"
-        theme="twoTone"
-        type="plus-circle"
-        @click="handleAddclick" />
-    </a-tooltip>
-    <a-tooltip>
-      <template slot="title">
-        删除所选元素
-      </template>
-      <a-icon
-        class="delete-btn"
-        theme="twoTone"
-        two-tone-color="#eb2f96"
-        type="delete"
-        @click="handleDeleteClick" />
-    </a-tooltip>
-    <vue-draggable-resizable
-      class-name="draggable-item"
-      :grid="[20,20]"
-      :w="item.w"
-      :h="item.h"
-      :x="item.x"
-      :y="item.y"
-      :active="item.active"
-      @dragging="onDrag(index, ...arguments)"
-      @resizing="onResize(index, ...arguments)"
-      @activated="onActivated(index)"
-      @deactivated="onDeactivated(index)"
-      v-for="(item, index) in layouts"
-      :key="index" />
+  <div>
+    <div class="mb-2">
+      <a-tooltip>
+        <template slot="title">
+          完成按钮是完成当前房间的绘制
+        </template>
+        <a-button class="mr-2" @click="handleCompleteClick">完成房间绘制</a-button>
+      </a-tooltip>
+      <a-tooltip>
+        <template slot="title">
+          提交按钮是提交当前所有信息
+        </template>
+        <a-button type="primary">
+          提交
+        </a-button>
+      </a-tooltip>
+    </div>
+    <div class="draggable-wrapper">
+      <a-tooltip>
+        <template slot="title">
+          添加元素
+        </template>
+        <a-icon
+          class="add-btn"
+          theme="twoTone"
+          type="plus-circle"
+          @click="handleAddclick" />
+      </a-tooltip>
+      <a-tooltip>
+        <template slot="title">
+          删除所选元素
+        </template>
+        <a-icon
+          class="delete-btn"
+          theme="twoTone"
+          two-tone-color="#eb2f96"
+          type="delete"
+          @click="handleDeleteClick" />
+      </a-tooltip>
+      <vue-draggable-resizable
+        class-name="draggable-item"
+        :grid="[20,20]"
+        :w="item.w"
+        :h="item.h"
+        :x="item.x"
+        :y="item.y"
+        :active="item.active"
+        @dragging="onDrag(index, ...arguments)"
+        @resizing="onResize(index, ...arguments)"
+        @activated="onActivated(index)"
+        @deactivated="onDeactivated(index)"
+        v-for="(item, index) in layouts"
+        :key="index" />
+    </div>
+    <add-form :visible="visibleAddForm" :visibleAddForm.sync="visibleAddForm" />
   </div>
 </template>
 <script>
 import VueDraggableResizable from 'vue-draggable-resizable'
+import AddForm from '../../components/AddForm'
+
 export default {
   name: 'AddMall',
   components: {
     VueDraggableResizable,
+    AddForm,
   },
   data () {
     return {
@@ -56,6 +78,7 @@ export default {
         },
       ],
       currentActivedIndex: '',
+      visibleAddForm: false,
     }
   },
   methods: {
@@ -88,13 +111,16 @@ export default {
     onDeactivated (i) {
       this.layouts[i].active = false
     },
+    handleCompleteClick () {
+      this.visibleAddForm = true
+    },
   },
 }
 </script>
 
 <style lang="scss">
   .draggable-wrapper {
-    height: 100%;
+    height: 600px;
     width: 100%;
     background: linear-gradient(-90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px) 0% 0% / 20px 20px, linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px) 0% 0% / 20px 20px;
     position: relative;
