@@ -2,6 +2,7 @@ import Login from '../pages/Login'
 import ManagerSetting from '../pages/ManagerSetting'
 import RoleSetting from '../pages/RoleSetting'
 import Statistic from '../pages/Statistic'
+import AddMall from '../pages/AddMall'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     name: 'statistic',
     path: '/statistic',
     component: Statistic,
+  },
+  {
+    name: 'add',
+    path: '/add',
+    component: AddMall,
   },
 ]
 
